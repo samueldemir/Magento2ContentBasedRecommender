@@ -1,0 +1,21 @@
+pool: 
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: production
+    displayName: production
+    jobs:
+      - job: ProductRecommender
+        timeoutInMinutes: 999999
+        displayName: ProductRecommender
+        steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.8'
+            addToPath: true
+            architecture: 'x64'
+        - script: |
+            pip install -r requirements.txt
+        - script: |
+            python src/ProductRecommender/CosineSimilarity.py
+          displayName: CosineSimilarityRun
